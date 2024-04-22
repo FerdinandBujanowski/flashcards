@@ -7,6 +7,143 @@ If your plugin does not need CSS, delete this file.
 
 */
 
-div.root {
-    background-color: blue;
+div {
+	display: block;
+	unicode-bidi: isolate;
+}
+
+.root {
+	text-align: center;
+	color: var(--text-normal);
+}
+
+.flashcard-grid {
+	display: grid;
+	grid-gap: 1rem 0;
+	gap: 1rem 0;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-columns: auto 1fr;
+
+	padding: 1.5rem 2rem;
+}
+
+.flashcard-header {
+	align-items: stretch;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 4rem;
+	position: relative;
+	justify-content: flex-start;
+}
+
+.flashcard-header-top {
+	display: grid;
+	grid-template-columns: 20% 60% 20%;
+	margin-bottom: 1.5rem;
+}
+
+.flashcard-header-text {
+	align-items: stretch;
+	display: flex;
+	flex: 1 1;
+	word-break: break-word;
+	font-size: 1.5rem;
+}
+
+.header-top-center {
+	font-weight: bold;
+	text-align: center;
+}
+
+.header-top-right {
+	text-align: right;
+}
+
+.flashcard-answers {
+	flex-grow: 0;
+	width: 100%;
+	z-index: 201;
+}
+
+.to-do-text-container {
+	display: flex;
+	align-items: center;
+}
+
+.multiple-choice {
+	display: grid;
+	grid-gap: 1.5rem;
+	gap: 1.5rem;
+	grid-template-columns: 1fr 1fr;
+}
+
+.answer-number {
+	font-weight: 600;
+	font-size: 0.875rem;
+	letter-spacing: normal;
+
+	margin-right: 1rem;
+	align-items: center;
+	display: flex;
+	flex: 0 0 100%;
+}
+
+.answer-text {
+	align-items: center;
+	display: flex;
+	height: 100%;
+	position: relative;
+	width: 100%;
+	flex: 0 0 100%;
+	justify-content: space-between;
+}
+
+article.flashcard {
+	text-align: left;
+	background-color: var(--background-secondary);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 0 auto;
+	padding: 3rem;
+	border-radius: 10px;
+	border: solid var(--graph-line);
+	max-width: 52.5rem;
+	min-height: 29.25rem;
+}
+
+section.to-do-text {
+	font-size: 1rem;
+	line-height: 1.5;
+	margin-bottom: 1.5rem;
+	font-weight: 600;
+	letter-spacing: normal;
+}
+
+.wrong {
+	background-color: var(--color-red);
+}
+
+.correct {
+	background-color: var(--color-green);
+}
+
+.answer {
+	font-weight: 400;
+	font-size: 1rem;
+	letter-spacing: normal;
+	line-height: 1.5;
+	border-radius: 0.5rem;
+	border: 0.125rem solid var(--graph-line);
+	cursor: pointer;
+	padding: 1rem;
+	position: relative;
+	width: 100%;
+	word-break: break-word;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	vertical-align: middle;
+}
+.answer:hover {
+	border-color: var(--text-accent-hover);
 }

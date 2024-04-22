@@ -1,0 +1,55 @@
+{
+	"name": "Test Quiz",
+	"series": [
+		{
+			"name": "Test series",
+			"questions": [
+				{
+					"question": "Question 1",
+					"answers": [
+						{ "text": "Answer 1", "correct": true },
+						{ "text": "Answer 2" },
+						{ "text": "Answer 3" },
+						{ "text": "Answer 4" }
+					]
+				},
+				{
+					"question": "Question 2",
+					"answers": [
+						{ "text": "Answer 1" },
+						{ "text": "Answer 2", "correct": true },
+						{ "text": "Answer 3" },
+						{ "text": "Answer 4" }
+					]
+				},
+				{
+					"question": "Question 3",
+					"answers": [
+						{ "text": "Answer 1" },
+						{ "text": "Answer 2" },
+						{ "text": "Answer 3", "correct": true },
+						{ "text": "Answer 4" }
+					]
+				},
+				{
+					"question": "Question 4",
+					"answers": [
+						{ "text": "Answer 1" },
+						{ "text": "Answer 2" },
+						{ "text": "Answer 3" },
+						{ "text": "Answer 4", "correct": true }
+					]
+				},
+				{
+					"question": "Question 1",
+					"answers": [
+						{ "text": "Answer 5", "correct": true },
+						{ "text": "Answer 2" },
+						{ "text": "Answer 3" },
+						{ "text": "Answer 4" }
+					]
+				}
+			]
+		}
+	]
+}

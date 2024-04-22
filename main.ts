@@ -15,10 +15,11 @@ export default class FlashcardPlugin extends Plugin {
 			"layers-3",
 			"Open Quizzer",
 			() => {
-				// Called when the user clicks the icon.
 				this.activateFlashcardView();
 			}
 		);
+
+		this.addSettingTab(new FlashcardSettingTab(this.app, this));
 	}
 
 	onunload() {}

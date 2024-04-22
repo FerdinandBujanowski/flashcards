@@ -1,7 +1,7 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { StrictMode } from "react";
 import { Root, createRoot } from "react-dom/client";
-import ReactView from "./ReactView";
+import ReactView from "./components/ReactView";
 
 export const FLASHCARD_VIEW = "flashcard-view";
 
@@ -24,7 +24,7 @@ export class FlashcardView extends ItemView {
 		this.root = createRoot(this.containerEl.children[1]);
 		this.root.render(
 			<StrictMode>
-				<ReactView />
+				<ReactView app={this.app} />
 			</StrictMode>
 		);
 	}
