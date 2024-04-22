@@ -1,6 +1,6 @@
-import { App, Plugin, PluginSettingTab } from "obsidian";
+import { App, Plugin, PluginSettingTab, WorkspaceLeaf } from "obsidian";
 
-// Remember to rename these classes and interfaces!
+import { FlashcardView, FLASHCARD_VIEW } from "views/FlashcardView";
 
 interface FlashcardSettings {}
 
@@ -9,7 +9,17 @@ const DEFAULT_SETTINGS: FlashcardSettings = {};
 export default class FlashcardPlugin extends Plugin {
 	settings: FlashcardSettings;
 
-	async onload() {}
+	async onload() {
+		this.registerView(FLASHCARD_VIEW, (leaf) => new FlashcardView(leaf));
+		const ribbonIconEl = this.addRibbonIcon(
+			"layers-3",
+			"Open Quizzer",
+			() => {
+				// Called when the user clicks the icon.
+				this.activateFlashcardView();
+			}
+		);
+	}
 
 	onunload() {}
 
@@ -23,6 +33,26 @@ export default class FlashcardPlugin extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+	async activateFlashcardView() {
+		const { workspace } = this.app;
+		let leaf: WorkspaceLeaf | null = null;
+		const leaves = workspace.getLeavesOfType(FLASHCARD_VIEW);
+
+		if (leaves.length > 0) {
+			leaf = leaves[0];
+			workspace.revealLeaf(leaf);
+		} else {
+			const activeLeaf = workspace.activeLeaf;
+			if (activeLeaf) {
+				leaf = workspace.createLeafBySplit(activeLeaf, "vertical");
+				await leaf.setViewState({ type: FLASHCARD_VIEW, active: true });
+				if (leaf != null) workspace.revealLeaf(leaf);
+			}
+		}
+
+		// workspace.revealLeaf();
 	}
 }
 
