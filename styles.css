@@ -10,6 +10,16 @@ If your plugin does not need CSS, delete this file.
 div {
 	display: block;
 	unicode-bidi: isolate;
+	white-space: pre-wrap;
+}
+
+.header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.header button {
+	margin-right: 10px;
 }
 
 .root {
@@ -38,19 +48,23 @@ div {
 
 .flashcard-header-top {
 	display: grid;
-	grid-template-columns: 20% 60% 20%;
+	grid-template-columns: 30% 40% 30%;
 	margin-bottom: 1.5rem;
 }
 
 .flashcard-header-text {
 	align-items: stretch;
-	display: flex;
+	display: inline;
 	flex: 1 1;
 	word-break: break-word;
 	font-size: 1.5rem;
 }
+.expl {
+	font-size: 1.25rem;
+}
 
 .header-top-center {
+	font-size: 1.25rem;
 	font-weight: bold;
 	text-align: center;
 }
@@ -146,4 +160,25 @@ section.to-do-text {
 }
 .answer:hover {
 	border-color: var(--text-accent-hover);
+}
+
+ul.quiz-list {
+	padding-inline-start: 1.5rem;
+	font-size: 1.25rem;
+}
+ul.series-list {
+	padding-inline-start: 1rem;
+	font-size: 1rem;
+}
+div.quiz:hover {
+	color: var(--text-accent-hover);
+	cursor: pointer;
+}
+li.series:hover {
+	color: var(--text-accent-hover);
+	cursor: pointer;
+}
+
+div.selected {
+	font-weight: 600;
 }

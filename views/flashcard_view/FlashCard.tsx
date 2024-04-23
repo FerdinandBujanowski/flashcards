@@ -1,29 +1,58 @@
 import Answer from "./Answer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface FlashcardProps {
+	quiz: string;
+	series: string;
 	question: string;
+	q_index: [number, number];
 	answers: string[];
 	correct: number;
+	explanation?: string;
 }
 
-function FlashCard({ question, answers, correct }: FlashcardProps) {
+function FlashCard({
+	quiz,
+	series,
+	question,
+	q_index,
+	answers,
+	correct,
+	explanation,
+}: FlashcardProps) {
 	const [reveal, setReveal] = useState(-1);
 
 	const clickAnswer = (index: number) => {
-		setReveal(index);
+		if (reveal === -1) setReveal(index);
 	};
+
+	useEffect(() => {
+		setReveal(-1);
+	}, [question]);
+
+	const explanation_mode = reveal !== -1 && explanation;
 
 	return (
 		<>
 			<article className="flashcard">
 				<div className="flashcard-header">
 					<div className="flashcard-header-top">
-						<div className="header-top-left">Test1</div>
-						<div className="header-top-center">Test</div>
-						<div className="header-top-right">Test3</div>
+						<div className="header-top-left">{series}</div>
+						<div className="header-top-center">{quiz}</div>
+						<div className="header-top-right">
+							Question {q_index[0] + 1} of {q_index[1]}
+						</div>
 					</div>
-					<div className="flashcard-header-text">{question}</div>
+					<div
+						className={
+							"flashcard-header-text" + explanation_mode
+								? " expl"
+								: ""
+						}
+						dangerouslySetInnerHTML={{
+							__html: explanation_mode ? explanation : question,
+						}}
+					/>
 				</div>
 				<div className="flashcard-answers">
 					<section className="to-do-text">
@@ -35,7 +64,8 @@ function FlashCard({ question, answers, correct }: FlashcardProps) {
 						{answers.map((text, index) => {
 							return (
 								<Answer
-									answer={text}
+									key={index}
+									text={text}
 									index={index}
 									clickFunction={clickAnswer}
 									correct={reveal !== -1 && index === correct}

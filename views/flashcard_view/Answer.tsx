@@ -1,12 +1,12 @@
 interface AnswerProps {
-	answer: String;
+	text: String;
 	index: number;
 	clickFunction: (index: number) => void;
 	correct: boolean;
 	wrong: boolean;
 }
 
-function Answer({ answer, index, clickFunction, correct, wrong }: AnswerProps) {
+function Answer({ text, index, clickFunction, correct, wrong }: AnswerProps) {
 	return (
 		<>
 			<section
@@ -17,7 +17,10 @@ function Answer({ answer, index, clickFunction, correct, wrong }: AnswerProps) {
 				onClick={() => clickFunction(index)}
 			>
 				<div className="answer-number">{index + 1}</div>
-				<div className="answer-text">{answer}</div>
+				<div
+					className="answer-text"
+					dangerouslySetInnerHTML={{ __html: text }}
+				/>
 			</section>
 		</>
 	);

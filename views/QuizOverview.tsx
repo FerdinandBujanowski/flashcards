@@ -1,27 +1,27 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { StrictMode } from "react";
 import { Root, createRoot } from "react-dom/client";
-import FlashCardContainer from "./flashcard_view/FlashCardContainer";
 import { Quiz, Series, Question, Answer } from "interfaces";
+import QuizList from "../views/quiz_overview/QuizList";
 
-export const FLASHCARD_VIEW = "flashcard-view";
+export const QUIZ_OVERVIEW = "quiz-overview";
 
-export class FlashcardView extends ItemView {
+export class QuizOverview extends ItemView {
 	root: Root | null = null;
 	quizzes: Quiz[];
-	change_vector: number[] = [0, 0, 0];
+	change_vector: number[] = [0, 0];
 
 	constructor(leaf: WorkspaceLeaf, quizzes: Quiz[]) {
 		super(leaf);
 		this.quizzes = quizzes;
 	}
 
-	getViewType() {
-		return FLASHCARD_VIEW;
+	getViewType(): string {
+		return QUIZ_OVERVIEW;
 	}
 
-	getDisplayText() {
-		return "Flashcard View";
+	getDisplayText(): string {
+		return "Quiz Overview";
 	}
 
 	getIcon(): string {
@@ -32,7 +32,7 @@ export class FlashcardView extends ItemView {
 		this.root = createRoot(this.containerEl.children[1]);
 		this.root.render(
 			<StrictMode>
-				<FlashCardContainer key="react_view" quizzes={this.quizzes} />
+				<QuizList quizzes={this.quizzes} />
 			</StrictMode>
 		);
 	}
@@ -41,17 +41,12 @@ export class FlashcardView extends ItemView {
 		this.root?.unmount;
 	}
 
-	async passCommand(
-		quiz_index: number,
-		series_index: number,
-		question_index: number
-	) {
-		this.change_vector = [quiz_index, series_index, question_index];
+	async passCommand(quiz_index: number, series_index: number) {
+		this.change_vector = [quiz_index, series_index];
 
 		this.root?.render(
 			<StrictMode>
-				<FlashCardContainer
-					key="react_view"
+				<QuizList
 					quizzes={this.quizzes}
 					change_vector={this.change_vector}
 				/>
