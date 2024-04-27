@@ -1,13 +1,25 @@
 import { useState, useEffect } from "react";
 import FlashCard from "./FlashCard";
-import { Quiz, Series, Question, Answer } from "interfaces";
+import { AnswerCommand, Commands, Order, Quiz, SetCommand } from "exports";
+import QuizStatistics from "./QuizStatistics";
+import { SaveModal } from "modals/SaveModal";
+import { App, Notice } from "obsidian";
+import { OrderModal } from "modals/OrderModal";
+import { ResetModal } from "modals/ResetModal";
 
 interface ReactViewProps {
+	app: App;
 	quizzes: Quiz[];
 	change_vector?: number[];
+	commands: Commands;
 }
 
-function FlashCardContainer({ quizzes, change_vector }: ReactViewProps) {
+function FlashCardContainer({
+	app,
+	quizzes,
+	change_vector,
+	commands,
+}: ReactViewProps) {
 	const [selectedQuiz, setSelectedQuiz] = useState(
 		quizzes ? (quizzes.length > 0 ? 0 : -1) : -1
 	);
@@ -19,7 +31,8 @@ function FlashCardContainer({ quizzes, change_vector }: ReactViewProps) {
 			const [quiz_index, series_index, question_index] = change_vector;
 			setSelectedQuiz(quiz_index);
 			setCurrentSeries(series_index);
-			setCurrentQuestion(question_index);
+			const order = quizzes[quiz_index].series[series_index].order;
+			setCurrentQuestion(order ? order[question_index] : question_index);
 		}
 	}, [change_vector]);
 
@@ -37,23 +50,16 @@ function FlashCardContainer({ quizzes, change_vector }: ReactViewProps) {
 	if (!correct) correct = 0;
 
 	const nextQuestion = () => {
-		setCurrentQuestion((currentQuestion + 1) % series.questions.length);
+		commands.setCommand(0, 0, 1);
 	};
 	const prevQuestion = () => {
-		setCurrentQuestion(
-			(currentQuestion + series.questions.length - 1) %
-				series.questions.length
-		);
+		commands.setCommand(0, 0, -1);
 	};
 	const nextSeries = () => {
-		setCurrentSeries((currentSeries + 1) % quiz.series.length);
-		setCurrentQuestion(0);
+		commands.setCommand(0, 1, 0);
 	};
 	const prevSeries = () => {
-		setCurrentSeries(
-			(currentSeries - 1 + quiz.series.length) % quiz.series.length
-		);
-		setCurrentQuestion(0);
+		commands.setCommand(0, -1, 0);
 	};
 
 	return (
@@ -63,26 +69,76 @@ function FlashCardContainer({ quizzes, change_vector }: ReactViewProps) {
 				<button onClick={nextSeries}>Next Series</button>
 				<button onClick={prevQuestion}>Previous Question</button>
 				<button onClick={nextQuestion}>Next Question</button>
+				<button
+					onClick={() => {
+						new SaveModal(app, (keepOrder) => {
+							commands.saveCommand(keepOrder);
+						}).open();
+					}}
+				>
+					Save Progress
+				</button>
+				<button
+					onClick={() => {
+						new ResetModal(app, () => {
+							for (let question of series.questions) {
+								question.success = [];
+							}
+							commands.setCommand(0, 0, 0);
+						}).open();
+					}}
+				>
+					Wipe Progress
+				</button>
+				<button
+					onClick={() => {
+						//TODO create modal with params
+						new OrderModal(app, (primary, secondary) => {
+							commands.orderCommand(
+								quiz,
+								currentSeries,
+								primary,
+								secondary
+							);
+						}).open();
+					}}
+				>
+					Set Order
+				</button>
 			</div>
 			<div className="root">
 				<br />
 				{selectedQuiz !== -1 && (
-					<FlashCard
-						quiz={quiz.name}
-						series={series ? series?.name : ""}
-						question={question ? question.name : ""}
-						q_index={[
-							currentQuestion,
-							series ? series?.questions.length : 0,
-						]}
-						answers={
-							question
-								? question.answers.map((answer) => answer.text)
-								: [""]
-						}
-						correct={correct}
-						explanation={question?.explanation}
-					/>
+					<>
+						<FlashCard
+							quiz={quiz.name}
+							series={series ? series?.name : ""}
+							question={question ? question.name : ""}
+							q_index={[
+								currentQuestion,
+								series ? series?.questions.length : 0,
+							]}
+							// TODO this is ugly
+							quiz_series={[selectedQuiz, currentSeries]}
+							answers={
+								question
+									? question.answers.map(
+											(answer) => answer.text
+									  )
+									: [""]
+							}
+							correct={correct}
+							explanation={question?.explanation}
+							answerCommand={commands.answerCommand}
+						/>
+
+						<QuizStatistics
+							quizzes={quizzes}
+							quiz_index={selectedQuiz}
+							series_index={currentSeries}
+							question_index={currentQuestion}
+						/>
+					</>
 				)}
 			</div>
 		</>

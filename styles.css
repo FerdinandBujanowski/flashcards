@@ -19,6 +19,7 @@ div {
 	align-items: center;
 }
 .header button {
+	font-size: 10px;
 	margin-right: 10px;
 }
 
@@ -112,7 +113,7 @@ div {
 	justify-content: space-between;
 }
 
-article.flashcard {
+.flashcard {
 	text-align: left;
 	background-color: var(--background-secondary);
 	display: flex;
@@ -126,20 +127,12 @@ article.flashcard {
 	min-height: 29.25rem;
 }
 
-section.to-do-text {
+.to-do-text {
 	font-size: 1rem;
 	line-height: 1.5;
 	margin-bottom: 1.5rem;
 	font-weight: 600;
 	letter-spacing: normal;
-}
-
-.wrong {
-	background-color: var(--color-red);
-}
-
-.correct {
-	background-color: var(--color-green);
 }
 
 .answer {
@@ -181,4 +174,53 @@ li.series:hover {
 
 div.selected {
 	font-weight: 600;
+}
+
+/** STATISTICS */
+
+.stat-line {
+	display: flex;
+	align-items: center;
+}
+
+.stat-text {
+	margin-right: 10px; /* Adjust as needed */
+}
+
+.boxes {
+	display: flex;
+	justify-content: center;
+	margin: 10px;
+}
+
+.box {
+	width: 20px; /* Adjust as needed */
+	height: 20px; /* Adjust as needed */
+	margin-right: 5px; /* Adjust as needed */
+}
+
+.wrong {
+	background-color: var(--color-red);
+}
+
+.correct {
+	background-color: var(--color-green);
+}
+
+.undefined {
+	background-color: var(--background-secondary);
+}
+
+table {
+	margin-top: 1rem;
+	width: 100%;
+}
+
+th {
+	border: 2px solid var(--color-green);
+	width: 33%;
+	text-align: center;
+}
+.stat-header {
+	font-weight: bold;
 }

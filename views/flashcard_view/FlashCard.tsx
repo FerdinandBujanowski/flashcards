@@ -1,3 +1,4 @@
+import { AnswerCommand } from "exports";
 import Answer from "./Answer";
 import { useEffect, useState } from "react";
 
@@ -6,9 +7,11 @@ interface FlashcardProps {
 	series: string;
 	question: string;
 	q_index: [number, number];
+	quiz_series: [number, number];
 	answers: string[];
 	correct: number;
 	explanation?: string;
+	answerCommand: AnswerCommand;
 }
 
 function FlashCard({
@@ -16,14 +19,24 @@ function FlashCard({
 	series,
 	question,
 	q_index,
+	quiz_series,
 	answers,
 	correct,
 	explanation,
+	answerCommand,
 }: FlashcardProps) {
 	const [reveal, setReveal] = useState(-1);
 
 	const clickAnswer = (index: number) => {
-		if (reveal === -1) setReveal(index);
+		if (reveal === -1) {
+			setReveal(index);
+			answerCommand(
+				quiz_series[0],
+				quiz_series[1],
+				q_index[0],
+				index === correct
+			);
+		}
 	};
 
 	useEffect(() => {

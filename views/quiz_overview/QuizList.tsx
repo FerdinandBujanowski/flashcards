@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Quiz, Series, Question, Answer } from "interfaces";
+import { Quiz, SetCommand } from "exports";
 
 interface QuizListProps {
 	quizzes: Quiz[];
 	change_vector?: number[];
+	setCommand: SetCommand;
 }
-function QuizList({ quizzes, change_vector }: QuizListProps) {
+function QuizList({ quizzes, change_vector, setCommand }: QuizListProps) {
 	const [selectedQuiz, setSelectedQuiz] = useState(
 		quizzes ? (quizzes.length > 0 ? 0 : -1) : -1
 	);
@@ -32,6 +33,9 @@ function QuizList({ quizzes, change_vector }: QuizListProps) {
 								"quiz" +
 								(quiz_index === selectedQuiz ? " selected" : "")
 							}
+							onClick={() => {
+								setCommand(quiz_index - selectedQuiz, 0, 0);
+							}}
 						>
 							{quiz.name}
 						</div>
@@ -41,10 +45,22 @@ function QuizList({ quizzes, change_vector }: QuizListProps) {
 									<li key={series_index} className="series">
 										<div
 											className={
-												series_index === currentSeries
+												series_index ===
+													currentSeries &&
+												selectedQuiz === quiz_index
 													? "selected"
 													: ""
 											}
+											onClick={() => {
+												if (selectedQuiz !== quiz_index)
+													return;
+												setCommand(
+													0,
+													series_index -
+														currentSeries,
+													0
+												);
+											}}
 										>
 											{series.name}
 										</div>
