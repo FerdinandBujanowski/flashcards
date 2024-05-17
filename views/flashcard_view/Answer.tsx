@@ -17,10 +17,9 @@ function Answer({ text, index, clickFunction, correct, wrong }: AnswerProps) {
 				onClick={() => clickFunction(index)}
 			>
 				<div className="answer-number">{index + 1}</div>
-				<div
-					className="answer-text"
-					dangerouslySetInnerHTML={{ __html: text }}
-				/>
+				<div className="answer-text">
+					<span dangerouslySetInnerHTML={{ __html: text }} />
+				</div>
 			</section>
 		</>
 	);

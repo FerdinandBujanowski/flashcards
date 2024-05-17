@@ -41,6 +41,10 @@ function FlashCardContainer({
 		return <h1>No Quiz found :(</h1>;
 	}
 	const series = quiz.series[currentSeries];
+	if (currentQuestion > series.questions.length) {
+		console.error("CRINGE");
+		commands.setCommand(0, 0, -currentQuestion);
+	}
 	const question = series.questions[currentQuestion];
 	const correctAnswer = question?.answers.find((answer) => answer.correct);
 

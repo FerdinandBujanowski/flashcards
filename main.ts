@@ -338,7 +338,7 @@ export default class FlashcardPlugin extends Plugin {
 				primarySortFunction(series, a) - primarySortFunction(series, b)
 		);
 
-		if (primary !== Order.RANDOM) {
+		if (primary !== Order.RANDOM && primary !== Order.DEFAULT) {
 			let parts = [[series.order[0]]];
 			for (let i = 1; i < series.order.length; i++) {
 				const currentIndex = series.order[i];

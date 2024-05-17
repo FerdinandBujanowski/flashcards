@@ -26,9 +26,13 @@ function QuizStatistics({
 
 	const currentQuiz: Quiz = quizzes[quiz_index];
 	const currentSeries: Series = currentQuiz.series[series_index];
+	if (!currentSeries) return <></>;
 	const currentQuestion: Question = currentSeries.questions[question_index];
+	if (!currentQuestion) return <></>;
 	const currentStat: boolean[] =
-		currentQuestion.success !== undefined ? currentQuestion.success : [];
+		"success" in currentQuestion && currentQuestion.success
+			? currentQuestion.success
+			: [];
 
 	const getBoxes = (): JSX.Element[] => {
 		const boxes: JSX.Element[] = [];
